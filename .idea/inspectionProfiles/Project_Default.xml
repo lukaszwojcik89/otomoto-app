@@ -1,0 +1,58 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myValues">
+        <value>
+          <list size="11">
+            <item index="0" class="java.lang.String" itemvalue="css" />
+            <item index="1" class="java.lang.String" itemvalue="btn-primary" />
+            <item index="2" class="java.lang.String" itemvalue="jedzonko.recipelistview" />
+            <item index="3" class="java.lang.String" itemvalue="url" />
+            <item index="4" class="java.lang.String" itemvalue="%}" />
+            <item index="5" class="java.lang.String" itemvalue="{%" />
+            <item index="6" class="java.lang.String" itemvalue="plan" />
+            <item index="7" class="java.lang.String" itemvalue="href" />
+            <item index="8" class="java.lang.String" itemvalue="action" />
+            <item index="9" class="java.lang.String" itemvalue="width" />
+            <item index="10" class="java.lang.String" itemvalue="mt-3" />
+          </list>
+        </value>
+      </option>
+      <option name="myCustomValuesEnabled" value="true" />
+    </inspection_tool>
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="4">
+            <item index="0" class="java.lang.String" itemvalue="Django" />
+            <item index="1" class="java.lang.String" itemvalue="pytz" />
+            <item index="2" class="java.lang.String" itemvalue="asgiref" />
+            <item index="3" class="java.lang.String" itemvalue="sqlparse" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8NamingInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="N806" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="KRA_PYT_W_11_podstawy_django.django_1.views.random.randint" />
+          <option value="KRA_SPY_W_20_ScrumLab.jedzonko.models.Recipe.objects" />
+          <option value="tkinter.Entry.*" />
+          <option value="KRA_SPY_W_20_ScrumLab.jedzonko.admin.jedzonko" />
+          <option value="KRA_SPY_W_20_ScrumLab.scrumlab.urls.jedzonko" />
+          <option value="random.random.shuffle" />
+          <option value="coffe_shop.home.views.home" />
+          <option value="list.copy" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
