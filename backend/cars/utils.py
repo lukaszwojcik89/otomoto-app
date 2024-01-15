@@ -29,6 +29,7 @@ def scrape_otomoto_html(url):
                 fuel_type = offer['itemOffered'].get('fuelType', 'undefined')
                 mileage = offer['itemOffered'].get('mileageFromOdometer', {}).get('value', 'undefined')
 
+
                 # Save the extracted data to your Car model
                 Car.objects.create(
                     car_name=car_name,
