@@ -1,11 +1,11 @@
+# cars/models.py
 from django.db import models
 
 class Car(models.Model):
-    make = models.CharField(max_length=255)
-    model = models.CharField(max_length=255)
-    year_of_production = models.IntegerField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    # Add other fields as needed
+    car_name = models.CharField(max_length=255)
+    brand = models.CharField(max_length=255)
+    fuel_type = models.CharField(max_length=50)
+    mileage = models.IntegerField()  # Assuming it's an integer field
 
     def __str__(self):
-        return f"{self.make} {self.model} ({self.year_of_production})"
+        return self.car_name
