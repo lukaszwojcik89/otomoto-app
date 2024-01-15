@@ -1,4 +1,3 @@
-# cars/views.py
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from .models import Car

@@ -1,4 +1,3 @@
-# cars/utils.py
 import json
 import requests
 from bs4 import BeautifulSoup
@@ -24,11 +23,14 @@ def scrape_otomoto_html(url):
             # Now 'data' contains the structured information
             # Example: extracting car details and saving to the Car model
             for offer in data['mainEntity']['itemListElement']:
-                car_name = offer['itemOffered']['name']
-                brand = offer['itemOffered']['brand']
-                fuel_type = offer['itemOffered'].get('fuelType', 'undefined')
-                mileage = offer['itemOffered'].get('mileageFromOdometer', {}).get('value', 'undefined')
+                car_name = offer['itemOffered'].get('name', None)
+                brand = offer['itemOffered'].get('brand', None)
+                fuel_type = offer['itemOffered'].get('fuelType', None)
+                mileage = offer['itemOffered']['mileageFromOdometer'].get('value', None)
 
+                # Check if 'priceSpecification' key exists in the offer dictionary
+                price_specification = offer.get('priceSpecification', {})
+                price = price_specification.get('price', None)
 
                 # Save the extracted data to your Car model
                 Car.objects.create(
@@ -36,6 +38,7 @@ def scrape_otomoto_html(url):
                     brand=brand,
                     fuel_type=fuel_type,
                     mileage=mileage,
+                    price=price
                 )
 
                 print(f"Saved {car_name} to the Car model.")

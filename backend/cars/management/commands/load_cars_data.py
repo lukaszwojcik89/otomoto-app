@@ -1,4 +1,3 @@
-# cars/management/commands/load_cars_data.py
 from django.core.management.base import BaseCommand
 from cars.utils import scrape_otomoto_html
 
