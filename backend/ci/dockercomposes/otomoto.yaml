@@ -7,33 +7,31 @@ services:
     ports:
        - "8000:8000"
     depends_on:
-      - db
       - migrate
-
 
   migrate:
     build:
       context: ../..
       dockerfile: ci/dockerfiles/otomoto.Dockerfile
-    entrypoint: ["./manage.py","migrate"]
+    entrypoint: ["./manage.py", "migrate"]
     depends_on:
       - db
+
   createsuperuser:
     build:
       context: ../..
       dockerfile: ci/dockerfiles/otomoto.Dockerfile
-    entrypoint: ["./manage.py", "createsuperuser", "--username=domi",
-                 "--email=domi@domi.pl", "--noinput"]
+    entrypoint: ["./manage.py", "createsuperuser", "--username=domi", "--email=domi@domi.pl", "--noinput"]
     environment:
-        DJANGO_SUPERUSER_PASSWORD: "test"
+      DJANGO_SUPERUSER_PASSWORD: "test"
     depends_on:
       - db
       - migrate
 
-
   db:
-    image: postgres:16.0-alpine
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+    image: python:3.8-alpine
+    command: ["./manage.py", "runserver", "0.0.0.0:8000"]
+    volumes:
+      - .:/code
+    depends_on:
+      - migrate
