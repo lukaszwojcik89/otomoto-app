@@ -1,5 +1,8 @@
 from django.contrib import admin
+from django.db.models.functions import Coalesce
 from django.utils.translation import gettext_lazy as _
+
+from django.db.models import Avg
 
 from .models import Car
 
@@ -51,9 +54,47 @@ class MileageRangeFilter(admin.SimpleListFilter):
             return queryset.filter(mileage__gte=min_price, mileage__lte=max_price)
         return queryset
 
+def calculate_average_price(modeladmin, request, queryset, brand):
+    # Filter cars for the specified brand
+    brand_cars = queryset.filter(brand=brand)
+
+    # Replace null 'price' with 0 for the average calculation
+    brand_cars = brand_cars.annotate(price_with_zero=Coalesce('price', 0))
+
+    # Calculate the average price
+    average_price = brand_cars.aggregate(Avg('price_with_zero'))['price_with_zero__avg']
+
+    # Display the result to the user
+    if average_price is not None:
+        message = f'The average price for {brand} cars is: {average_price:.2f}'
+    else:
+        message = f'No data available for the average price of {brand} cars.'
+
+    modeladmin.message_user(request, message)
+
+calculate_average_price.short_description = 'Calculate Average Price'
+
+
+
 class CarAdmin(admin.ModelAdmin):
     list_display = ('car_name', 'brand', 'fuel_type', 'mileage', 'price')
     list_filter = (PriceRangeFilter, MileageRangeFilter, 'fuel_type', 'brand')  #filters in panel on right
     search_fields = ('car_name', 'brand')
+    actions = []
+    brands = Car.objects.values_list('brand', flat=True).distinct()
+    ordering = ['car_name', 'brand', 'fuel_type', 'mileage', 'price']
+
+    for brand in brands:
+        def create_action(brand=brand):
+            def action_func(modeladmin, request, queryset):
+                calculate_average_price(modeladmin, request, queryset, brand)
+
+            action_func.short_description = f'Calculate Average Price for {brand} Cars'
+            return action_func
+
+        action = create_action(brand)
+        setattr(action, '__name__', f'calculate_average_price_{brand.lower()}')
+        actions.append(action)
+
 
 admin.site.register(Car, CarAdmin)
