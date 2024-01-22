@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.db.models.functions import Coalesce
+from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 
 from django.db.models import Avg
@@ -54,6 +55,20 @@ class MileageRangeFilter(admin.SimpleListFilter):
             return queryset.filter(mileage__gte=min_price, mileage__lte=max_price)
         return queryset
 
+class AddsFilter(admin.SimpleListFilter):
+    title = _('ad visibility')
+    parameter_name = 'mileage_range'
+
+    def lookups(self, request, model_admin):
+        return [
+                ('remove ads', _('remove ads')),
+        ]
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.exclude(Q(mileage ='2') | Q(mileage ='5'))
+        return queryset
+
 def calculate_average_price(modeladmin, request, queryset, brand):
     # Filter cars for the specified brand
     brand_cars = queryset.filter(brand=brand)
@@ -78,7 +93,7 @@ calculate_average_price.short_description = 'Calculate Average Price'
 
 class CarAdmin(admin.ModelAdmin):
     list_display = ('car_name', 'brand', 'fuel_type', 'mileage', 'price')
-    list_filter = (PriceRangeFilter, MileageRangeFilter, 'fuel_type', 'brand')  #filters in panel on right
+    list_filter = (AddsFilter, PriceRangeFilter, MileageRangeFilter, 'fuel_type', 'brand')  #filters in panel on right
     search_fields = ('car_name', 'brand')
     actions = []
     brands = Car.objects.values_list('brand', flat=True).distinct()
